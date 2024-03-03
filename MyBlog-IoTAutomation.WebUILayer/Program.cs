@@ -17,7 +17,7 @@ namespace MyBlog_IoTAutomation.WebUILayer
             builder.Services.AddControllersWithViews();
 
             builder.Services.AddScoped<IMusteriManager, MusteriManager>();
-            builder.Services.AddScoped<IRepository<Musteri, int>, Repository<SqlDbContext, Musteri, int>>();
+            builder.Services.AddScoped<IRepository<Musteri, int>, Repository<SqlDbContext, Musteri, int>>(); // BussinesLayer hazir oldukdan sonra bu servisi kaldýr. Sadece Managerli kismi dursun.
             builder.Services.AddScoped<IRepository<Urun, int>, Repository<SqlDbContext, Urun, int>>();
             builder.Services.AddScoped<IRepository<Kategori, int>, Repository<SqlDbContext, Kategori, int>>();
             builder.Services.AddScoped<IRepository<Konut, int>, Repository<SqlDbContext, Konut, int>>();
