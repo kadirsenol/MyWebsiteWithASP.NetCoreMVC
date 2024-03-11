@@ -14,7 +14,7 @@ namespace MyBlog_IoTAutomation.DataAccessLayer.Repositories.Abstract
         //QUERY
         public Task<T> GetByPK(TId pk);
         public Task<ICollection<T>> GetAll(Expression<Func<T, bool>> expression = null);
-        public Task<ICollection<T>> GetAllInclude(Expression<Func<T, bool>> expression = null, Expression<Func<T, bool>> expression1 = null);
+        public Task<IEnumerable<T>?> GetAllInclude(Expression<Func<T, bool>>? expression, params Expression<Func<T, object>>[] include);
 
     }
 }

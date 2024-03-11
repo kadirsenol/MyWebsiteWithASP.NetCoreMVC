@@ -15,7 +15,7 @@ namespace MyBlog_IoTAutomation.DataAccessLayer.Repositories.Concrete
         }
         public async Task<int> Insert(T entity)
         {
-            dbContext.Set<T>().AddAsync(entity);
+            await dbContext.Set<T>().AddAsync(entity);
             return await dbContext.SaveChangesAsync();
         }
 
@@ -26,13 +26,13 @@ namespace MyBlog_IoTAutomation.DataAccessLayer.Repositories.Concrete
         }
         public async Task<int> Delete(T entity)
         {
-            dbContext.Set<T>().AddAsync(entity);
+            dbContext.Set<T>().Remove(entity);
             return await dbContext.SaveChangesAsync();
         }
 
         public async Task<int> DeleteAll(Expression<Func<T, bool>> expression)
         {
-            IEnumerable<T> findentities = dbContext.Set<T>().Where(expression).ToList();
+            IEnumerable<T> findentities = await dbContext.Set<T>().Where(expression).ToListAsync();
             dbContext.Set<T>().RemoveRange(findentities);
             return await dbContext.SaveChangesAsync();
         }
@@ -60,9 +60,20 @@ namespace MyBlog_IoTAutomation.DataAccessLayer.Repositories.Concrete
         {
             return await dbContext.Set<T>().FindAsync(pk);
         }
-        public Task<ICollection<T>> GetAllInclude(Expression<Func<T, bool>> expression = null, Expression<Func<T, bool>> expression1 = null)
+
+        public async Task<IEnumerable<T>?> GetAllInclude(Expression<Func<T, bool>>? expression, params Expression<Func<T, object>>[] include)
         {
-            throw new NotImplementedException();
+            IQueryable<T> query;
+            if (expression != null)
+            {
+                query = dbContext.Set<T>().Where(expression);
+            }
+            else
+            {
+                query = dbContext.Set<T>();
+            }
+
+            return include.Aggregate(query, (current, includeProperty) => current.Include(includeProperty));
         }
 
     }
