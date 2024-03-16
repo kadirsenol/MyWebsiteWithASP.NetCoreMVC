@@ -2,7 +2,7 @@
 {
     public interface IMusteriManager
     {
-        //CRUD VE QUERY KURALLARINI OLUSTUR
+        //CRUD VE QUERY İS KURALLARINI OLUSTUR
 
     }
 }
